@@ -1,6 +1,7 @@
 package com.example.springOne.service;
 
 import com.example.springOne.api.model.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ public class UserService {
     public UserService() {
         userList = new ArrayList<>();
 
-        // Initialize the list with some dummy users
         userList.add(new User(1, "Jishan", 27, "j@gmail.com"));
         userList.add(new User(2, "Hasnath", 26, "hasnatj@gmail.com"));
         userList.add(new User(3, "Jami", 25, "jami@gmail.com"));
@@ -35,17 +35,28 @@ public class UserService {
         return newUser;
     }
 
-    public User updateUser(Integer id, User updatedUser) {
-        Optional<User> userOptional = getUser(id);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setName(updatedUser.getName());
-            user.setAge(updatedUser.getAge());
-            user.setEmail(updatedUser.getEmail());
-            return user;
-        } else {
-            throw new RuntimeException("User not found with id: " + id);
+    public ResponseEntity<?> updateUser(Integer id, User updatedUser) {
+        try {
+            Optional<User> userOptional = getUser(id);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                if (updatedUser.getName() != null) {
+                    user.setName(updatedUser.getName());
+                }
+                if (updatedUser.getAge() != null) {
+                    user.setAge(updatedUser.getAge());
+                }
+                if (updatedUser.getEmail() != null) {
+                    user.setEmail(updatedUser.getEmail());
+                }
+
+                return ResponseEntity.ok(user);
+            }
+        } catch (Exception e) {
+
+            return ResponseEntity.status(1000).body(e.toString());
         }
+        return ResponseEntity.status(1001).body("Exception Caught");
     }
 
     public void deleteUser(Integer id) {

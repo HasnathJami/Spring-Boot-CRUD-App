@@ -2,19 +2,19 @@ package com.example.springOne.api.model;
 
 public class User {
 
-    private int id;
+    private Integer id;
     private String name;
-    private int age;
+    private Integer age;
     private String email;
 
-    public User(int id, String name, int age, String email) {
+    public User(Integer id, String name, Integer age, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class User {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
